@@ -1,7 +1,7 @@
 Compose Forms
 ===================
 
-![picture](data/just-image.png)
+![picture](https://github.com/keygenqt/compose-forms/blob/master/data/just-image.png?raw=true)
 
 #### Connection:
 
@@ -45,7 +45,10 @@ TextField(
 )
 ```
 
-### Default states validation (You can add custom states)
+### Validation states
+
+You can add create custom states or use default states
+
 * DomainStateValidate
 * DomainStateValidateRequired
 * EmailStateValidate
@@ -79,6 +82,9 @@ fieldState.getError(LocalContext.current)?.let { error ->
 ```
 
 ### Validations
+
+Default methods for validation
+
 * getErrorIsBlank
 * getErrorIsNotDomain
 * getErrorIsNotEmail
@@ -106,6 +112,9 @@ private fun getCustomErrorSize(target: String) =
 ```
 
 ### Fields form
+
+Default fields form
+
 * FormField
 * FormFieldEmail
 * FormFieldPassword
