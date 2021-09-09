@@ -1,9 +1,7 @@
 package com.keygenqt.forms.base
 
 /**
- * @todo descriptions
- *
- * @since 0.0.1
+ * @since 0.0.2
  * @author Vitaliy Zarubin
  */
 interface FormStates

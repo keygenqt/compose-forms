@@ -8,7 +8,7 @@ plugins {
 
 val compose = "1.0.2"
 
-version = "0.0.1"
+version = "0.0.2"
 group = "com.keygenqt.forms"
 
 spotless {
@@ -68,4 +68,5 @@ android {
 
 dependencies {
     implementation("androidx.compose.ui:ui:$compose")
+    implementation("androidx.compose.material:material:$compose")
 }

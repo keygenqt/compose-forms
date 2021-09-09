@@ -3,9 +3,9 @@ package com.keygenqt.forms.base
 import androidx.compose.ui.text.input.TextFieldValue
 
 /**
- * @todo descriptions
+ * State management TextField multiple
  *
- * @since 0.0.1
+ * @since 0.0.2
  * @author Vitaliy Zarubin
  */
 class FormFieldsState {

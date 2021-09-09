@@ -1,0 +1,11 @@
+<resources>
+    <!-- Validate -->
+    <string name="validate_is_incorrect">Is incorrect</string>
+    <string name="validate_is_required">Is required</string>
+
+    <!-- Fields -->
+    <string name="form_field">Field</string>
+    <string name="form_fields_email">Email</string>
+    <string name="form_fields_phone">Phone</string>
+    <string name="form_fields_password">Password</string>
+</resources>

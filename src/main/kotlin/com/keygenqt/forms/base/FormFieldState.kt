@@ -8,9 +8,12 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 
 /**
- * @todo descriptions
+ * State management TextField
  *
- * @since 0.0.1
+ * @param text Default value field
+ * @param checkValid Validate functions array
+ *
+ * @since 0.0.2
  * @author Vitaliy Zarubin
  */
 open class FormFieldState(
