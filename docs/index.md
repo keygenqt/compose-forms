@@ -1,7 +1,7 @@
 Compose Forms
 ===================
 
-![picture](data/just-image.png)
+![picture](../data/just-image.png)
 
 #### Connection:
 
