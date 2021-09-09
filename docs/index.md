@@ -1,7 +1,7 @@
 Compose Forms
 ===================
 
-![picture](../data/just-image.png)
+![picture](https://github.com/keygenqt/compose-forms/blob/master/data/just-image.png?raw=true)
 
 #### Connection:
 
