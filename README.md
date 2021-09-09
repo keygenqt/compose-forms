@@ -150,8 +150,10 @@ enum class SignInFieldsForm(val state: FormFieldState) : FormStates {
     SignInEmail(EmailStateValidateRequired()),
     SignInPassword(PasswordStateValidateRequired()),
 }
+```
 
-// Example composable form -> [@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/screens/signIn/SignInForm.kt#L52) <-
+#### Example composable form -> [@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/screens/signIn/SignInForm.kt#L52) <-
+```kotlin
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInForm(
