@@ -1,8 +1,42 @@
 ## Validation TextField
 
-You can add create custom states or use default states
+You can make validate state both custom and use ready-made
 
-#### Validations
+### Ready-made states
+
+* DomainStateValidate
+* DomainStateValidateRequired
+* EmailStateValidate
+* EmailStateValidateRequired
+* PhoneStateValidate
+* PhoneStateValidateRequired
+* UrlStateValidate
+* UrlStateValidateRequired
+
+#### Usage
+```kotlin
+val fieldState: FormFieldState = remember { DomainStateValidate() }
+
+TextField(
+    value = fieldState.text,
+    onValueChange = { fieldState.text = it },
+    label = { Text("Label") },
+    modifier = modifier
+        .fillMaxWidth()
+        .onFocusChanged { focusState ->
+            if (focusState.isFocused) {
+                fieldState.positionToEnd()
+            }
+        },
+    isError = fieldState.hasErrors,
+)
+
+fieldState.getError(LocalContext.current)?.let { error ->
+    TextFieldError(text = error)
+}
+```
+
+#### Ready-made validations
 
 Default methods for validation
 
