@@ -1,12 +1,12 @@
 ## Compose Forms
 
-![picture](https://github.com/keygenqt/surf-accompanist/blob/master/data/just-image.png?raw=true)
+![picture](https://github.com/keygenqt/compose-forms/blob/master/data/just-image.png?raw=true)
 
 Field state manager and basic set of validation, fields
 
 ## Connection
 
-![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fartifactory.keygenqt.com%2Fartifactory%2Fopen-source%2Fcom%2Fkeygenqt%2Fsurf_accompanist%2Fsurf-accompanist%2Fmaven-metadata.xml)
+![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fartifactory.keygenqt.com%2Fartifactory%2Fopen-source%2Fcom%2Fkeygenqt%2Fforms%2Fcompose-forms%2Fmaven-metadata.xml)
 
 ```gradle
 repositories {
@@ -19,39 +19,14 @@ dependencies {
 
 ## Features:
 
-### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/build_circle/materialicons/18dp/1x/baseline_build_circle_black_18dp.png?raw=true) State management TextField
-* Default text
-* Savable text
-* Check validates
-* Check has errors
-* Clear errors
-* Position to end
+### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/build_circle/materialicons/18dp/1x/baseline_build_circle_black_18dp.png?raw=true) [State management TextField](https://keygenqt.github.io/compose-forms/stateTextField)
+The library calls for encapsulating state management
 
-### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/check_circle/materialicons/18dp/1x/baseline_check_circle_black_18dp.png?raw=true) Validation TextField
+### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/check_circle/materialicons/18dp/1x/baseline_check_circle_black_18dp.png?raw=true) [Validation TextField](https://keygenqt.github.io/compose-forms/validationTextField)
 You can add create custom states or use default states
-* DomainStateValidate
-* DomainStateValidateRequired
-* EmailStateValidate
-* EmailStateValidateRequired
-* PhoneStateValidate
-* PhoneStateValidateRequired
-* UrlStateValidate
-* UrlStateValidateRequired
 
-Default methods for validation
-
-* getErrorIsBlank
-* getErrorIsNotDomain
-* getErrorIsNotEmail
-* getErrorIsNotPhone
-* getErrorIsNotUrl
-
-### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/grading/materialicons/18dp/1x/baseline_grading_black_18dp.png?raw=true) Systematization of work with forms
+### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/grading/materialicons/18dp/1x/baseline_grading_black_18dp.png?raw=true) [Systematization TextField and States](https://keygenqt.github.io/compose-forms/systematizationTextField)
 You can group fields into a form. You can make fields both custom and use ready-made:
-* FormField
-* FormFieldEmail
-* FormFieldPassword
-* FormFieldPhone
 
 ## License
 
