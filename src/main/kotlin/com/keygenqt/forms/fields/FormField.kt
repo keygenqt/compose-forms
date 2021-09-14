@@ -69,25 +69,6 @@ fun FormField(
     keyboardType: KeyboardType = KeyboardType.Text,
     contentError: @Composable (() -> Unit)? = null,
 ) {
-
-    val fieldState: FormFieldState = remember { DomainStateValidate() }
-
-    TextField(
-        value = fieldState.text,
-        onValueChange = { fieldState.text = it },
-        label = { Text("Label") },
-        modifier = modifier
-            .fillMaxWidth()
-            .onFocusChanged { focusState ->
-                if (focusState.isFocused) {
-                    fieldState.positionToEnd()
-                }
-            },
-        isError = fieldState.hasErrors,
-    )
-
-
-
     TextField(
         maxLines = 1,
         singleLine = true,
