@@ -8,7 +8,7 @@ plugins {
 
 val compose = "1.0.2"
 
-version = "0.0.4"
+version = "0.0.5"
 group = "com.keygenqt.forms"
 
 spotless {

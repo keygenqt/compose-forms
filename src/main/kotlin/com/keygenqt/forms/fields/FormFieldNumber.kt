@@ -33,7 +33,7 @@ import com.keygenqt.forms.base.FormFieldState
 import com.keygenqt.forms.states.PhoneStateValidate
 
 /**
- * Phone form field with PhoneStateValidate
+ * Number form field
  *
  * @param modifier modifier to apply to this layout node.
  * @param enabled controls the enabled state of the TextField.
@@ -54,7 +54,7 @@ import com.keygenqt.forms.states.PhoneStateValidate
  *
  */
 @Composable
-fun FormFieldPhone(
+fun FormFieldNumber(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     label: String = stringResource(id = R.string.form_fields_phone),
@@ -79,6 +79,6 @@ fun FormFieldPhone(
     onValueChange = onValueChange,
     mask = mask,
     placeholder = placeholder,
-    keyboardType = KeyboardType.Phone,
+    keyboardType = KeyboardType.Number,
     contentError = contentError,
 )

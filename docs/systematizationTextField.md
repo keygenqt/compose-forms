@@ -10,6 +10,15 @@ Default fields form
 * FormFieldEmail
 * FormFieldPassword
 * FormFieldPhone
+* FormFieldNumber
+
+#### FormFieldPhone and FormFieldNumber
+
+Numeric fields have the parameter mask. Examples of mask:
+* +380 (###) ###-##-##
+* +7 (###) ###-##-##
+* +# (###) ###-##-##
+* ####-####-####-####
 
 #### Params
 ```kotlin
