@@ -30,7 +30,7 @@ You can group fields into a form. You can make fields both custom and use ready-
 
 ### Preview
 <p>
-<img src="https://github.com/keygenqt/compose-forms/blob/master/data/vokoscreen-2021-09-14_20-10-40.gif?raw=true" width="50%"/>
+<img src="https://github.com/keygenqt/compose-forms/blob/master/data/vokoscreen-2021-09-14_20-10-40.gif?raw=true" width="40%"/>
 </p>
 
 ## License
