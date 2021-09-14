@@ -28,6 +28,11 @@ You can add create custom states or use default states
 ### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/grading/materialicons/18dp/1x/baseline_grading_black_18dp.png?raw=true) [Systematization TextField and States](https://keygenqt.github.io/compose-forms/systematizationTextField)
 You can group fields into a form. You can make fields both custom and use ready-made
 
+### Preview
+<p>
+<img src="data/vokoscreen-2021-09-14_20-10-40.gif" width="50%"/>
+</p>
+
 ## License
 
 ```
