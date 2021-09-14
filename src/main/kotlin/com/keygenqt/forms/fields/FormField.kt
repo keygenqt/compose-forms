@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ 
 package com.keygenqt.forms.fields
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,10 +29,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import com.keygenqt.forms.R
 import com.keygenqt.forms.base.FormFieldState
 import com.keygenqt.forms.base.TextFieldError
-import com.keygenqt.forms.states.DomainStateValidate
+import com.keygenqt.forms.base.onValueChangeMask
 
 /**
  * Default form field
@@ -65,6 +66,8 @@ fun FormField(
     keyboardActions: KeyboardActions = KeyboardActions(),
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
+    onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
+    mask: String? = null,
     placeholder: String? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
     contentError: @Composable (() -> Unit)? = null,
@@ -75,8 +78,16 @@ fun FormField(
         enabled = enabled,
         value = state.text,
         textStyle = textStyle,
-        onValueChange = { state.text = it },
-        label = { Text(label) },
+        onValueChange = { textFieldValue ->
+            mask?.let {
+                state.text = onValueChangeMask.invoke(mask, state, textFieldValue)
+            } ?: run {
+                state.text = onValueChange?.invoke(textFieldValue) ?: textFieldValue
+            }
+        },
+        label = {
+            Text(label)
+        },
         placeholder = placeholder?.let { { Text(placeholder) } },
         modifier = modifier
             .fillMaxWidth()

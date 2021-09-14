@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+ 
 package com.keygenqt.forms.fields
 
 import androidx.compose.foundation.text.KeyboardActions
@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import com.keygenqt.forms.R
 import com.keygenqt.forms.base.FormFieldState
 import com.keygenqt.forms.states.PhoneStateValidate
@@ -61,6 +62,8 @@ fun FormFieldPhone(
     keyboardActions: KeyboardActions = KeyboardActions(),
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { PhoneStateValidate() },
+    onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
+    mask: String? = null,
     placeholder: String? = null,
     contentError: @Composable (() -> Unit)? = null,
 ) = FormField(
@@ -72,6 +75,8 @@ fun FormFieldPhone(
     keyboardActions = keyboardActions,
     colors = colors,
     state = state,
+    onValueChange = onValueChange,
+    mask = mask,
     placeholder = placeholder,
     keyboardType = KeyboardType.Phone,
     contentError = contentError,

@@ -3,20 +3,20 @@ plugins {
     id("org.jetbrains.kotlin.android")
     `maven-publish`
     id("com.jfrog.artifactory")
-//    id("com.diffplug.spotless")
+    id("com.diffplug.spotless")
 }
 
 val compose = "1.0.2"
 
-version = "0.0.3"
+version = "0.0.4"
 group = "com.keygenqt.forms"
 
-//spotless {
-//    kotlin {
-//        target("**/*.kt")
-//        licenseHeaderFile("$buildDir/../LICENSE")
-//    }
-//}
+spotless {
+    kotlin {
+        target("**/*.kt")
+        licenseHeaderFile("$buildDir/../LICENSE")
+    }
+}
 
 publishing {
     publications {
