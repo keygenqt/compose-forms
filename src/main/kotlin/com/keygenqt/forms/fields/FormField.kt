@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.forms.fields
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,18 +43,18 @@ import com.keygenqt.forms.base.onValueChangeMask
  * @param label the optional label to be displayed.
  * @param textStyle Styling configuration for a Text.
  * @param imeAction Signals the keyboard what type of action should be displayed. It is not guaranteed if the keyboard will show the requested action.
- * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in
- * response to users triggering IME action on the software keyboard.
+ * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in response to users triggering IME action on the software keyboard.
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
- * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is
- * empty
+ * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
+ * @param maxLength Maximum allowed field length.
+ * @param mask +380 (###) ###-##-##, +7 (###) ###-##-##, +# (###) ###-##-##, ####-####-####-#### etc
+ * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
  * @param keyboardType keyboard type used to request an IME.
  * @param contentError the optional error to be displayed inside the text field container.
  *
- * @since 0.0.2
+ * @since 0.0.6
  * @author Vitaliy Zarubin
- *
  */
 @Composable
 fun FormField(
@@ -67,6 +67,7 @@ fun FormField(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
+    maxLength: Int? = null,
     mask: String? = null,
     placeholder: String? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -79,10 +80,12 @@ fun FormField(
         value = state.text,
         textStyle = textStyle,
         onValueChange = { textFieldValue ->
-            mask?.let {
-                state.text = onValueChangeMask.invoke(mask, state, textFieldValue)
-            } ?: run {
-                state.text = onValueChange?.invoke(textFieldValue) ?: textFieldValue
+            if (textFieldValue.text.length <= maxLength ?: Int.MAX_VALUE) {
+                mask?.let {
+                    state.text = onValueChangeMask.invoke(mask, state, textFieldValue)
+                } ?: run {
+                    state.text = onValueChange?.invoke(textFieldValue) ?: textFieldValue
+                }
             }
         },
         label = {

@@ -41,17 +41,15 @@ import com.keygenqt.forms.states.EmailStateValidate
  * @param label the optional label to be displayed.
  * @param textStyle Styling configuration for a Text.
  * @param imeAction Signals the keyboard what type of action should be displayed. It is not guaranteed if the keyboard will show the requested action.
- * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in
- * response to users triggering IME action on the software keyboard.
+ * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in response to users triggering IME action on the software keyboard.
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
- * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is
- * empty
+ * @param maxLength Maximum allowed field length.
+ * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
  * @param contentError the optional error to be displayed inside the text field container.
  *
- * @since 0.0.2
+ * @since 0.0.6
  * @author Vitaliy Zarubin
- *
  */
 @Composable
 fun FormFieldEmail(
@@ -63,6 +61,7 @@ fun FormFieldEmail(
     keyboardActions: KeyboardActions = KeyboardActions(),
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { EmailStateValidate() },
+    maxLength: Int? = null,
     placeholder: String? = null,
     contentError: @Composable (() -> Unit)? = null,
 ) = FormField(
@@ -74,6 +73,7 @@ fun FormFieldEmail(
     keyboardActions = keyboardActions,
     colors = colors,
     state = state,
+    maxLength = maxLength,
     placeholder = placeholder,
     keyboardType = KeyboardType.Email,
     contentError = contentError,

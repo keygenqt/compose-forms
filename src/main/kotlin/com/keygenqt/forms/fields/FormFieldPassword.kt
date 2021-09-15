@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.forms.fields
 
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,17 +44,17 @@ import com.keygenqt.forms.base.TextFieldError
  * @param label the optional label to be displayed.
  * @param textStyle Styling configuration for a Text.
  * @param imeAction Signals the keyboard what type of action should be displayed. It is not guaranteed if the keyboard will show the requested action.
- * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in
- * response to users triggering IME action on the software keyboard.
+ * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in response to users triggering IME action on the software keyboard.
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
- * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is
- * empty
+ * @param icVisibilityOff Resources object to query the image file from.
+ * @param icVisibilityOn Resources object to query the image file from.
+ * @param maxLength Maximum allowed field length.
+ * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
  * @param contentError the optional error to be displayed inside the text field container.
  *
- * @since 0.0.2
+ * @since 0.0.6
  * @author Vitaliy Zarubin
- *
  */
 @Composable
 fun FormFieldPassword(
@@ -67,6 +67,9 @@ fun FormFieldPassword(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     tintIcon: Color = MaterialTheme.colors.primary,
+    icVisibilityOff: Int = R.drawable.ic_visibility_off,
+    icVisibilityOn: Int = R.drawable.ic_visibility,
+    maxLength: Int? = null,
     placeholder: String? = null,
     contentError: @Composable (() -> Unit)? = null,
 ) {
@@ -74,14 +77,16 @@ fun FormFieldPassword(
     TextField(
         enabled = enabled,
         value = state.text,
-        onValueChange = { state.text = it },
+        onValueChange = {
+            if (it.text.length <= maxLength ?: Int.MAX_VALUE) state.text = it
+        },
         label = { Text(label) },
         placeholder = placeholder?.let { { Text(placeholder) } },
         visualTransformation = if (visibility) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             IconButton(onClick = { visibility = !visibility }) {
                 Icon(
-                    painter = painterResource(id = if (visibility) R.drawable.ic_visibility_off else R.drawable.ic_visibility),
+                    painter = painterResource(id = if (visibility) icVisibilityOff else icVisibilityOn),
                     contentDescription = label,
                     tint = tintIcon
                 )
