@@ -47,13 +47,16 @@ import com.keygenqt.forms.base.onValueChangeMask
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
  * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
+ * @param filter allows you to filter out all characters except those specified in the string
+ * @param maxLines the maximum height in terms of maximum number of visible lines.
+ * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
  * @param maxLength Maximum allowed field length.
  * @param mask +380 (###) ###-##-##, +7 (###) ###-##-##, +# (###) ###-##-##, ####-####-####-#### etc
  * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
  * @param keyboardType keyboard type used to request an IME.
  * @param contentError the optional error to be displayed inside the text field container.
  *
- * @since 0.0.6
+ * @since 0.0.7
  * @author Vitaliy Zarubin
  */
 @Composable
@@ -67,6 +70,9 @@ fun FormField(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
+    filter: String? = null,
+    maxLines: Int = 1,
+    singleLine: Boolean = true,
     maxLength: Int? = null,
     mask: String? = null,
     placeholder: String? = null,
@@ -74,18 +80,29 @@ fun FormField(
     contentError: @Composable (() -> Unit)? = null,
 ) {
     TextField(
-        maxLines = 1,
-        singleLine = true,
+        maxLines = maxLines,
+        singleLine = singleLine,
         enabled = enabled,
         value = state.text,
         textStyle = textStyle,
         onValueChange = { textFieldValue ->
-            if (textFieldValue.text.length <= maxLength ?: Int.MAX_VALUE) {
-                mask?.let {
-                    state.text = onValueChangeMask.invoke(mask, state, textFieldValue)
-                } ?: run {
-                    state.text = onValueChange?.invoke(textFieldValue) ?: textFieldValue
-                }
+            // filter
+            val value = filter?.let {
+                val filterWithMask = mask?.let { mask + filter } ?: filter
+                textFieldValue.copy(text = textFieldValue.text.filter { c -> filterWithMask.contains(c) })
+            } ?: textFieldValue
+
+            // maxLength
+            if (value.text.length > maxLength ?: Int.MAX_VALUE) {
+                return@TextField
+            }
+
+            mask?.let {
+                // mask
+                state.text = onValueChangeMask.invoke(mask, state, value)
+            } ?: run {
+                // custom or default
+                state.text = onValueChange?.invoke(value) ?: value
             }
         },
         label = {

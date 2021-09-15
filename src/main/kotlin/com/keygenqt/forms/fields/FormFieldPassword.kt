@@ -16,6 +16,7 @@
 
 package com.keygenqt.forms.fields
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -49,11 +50,12 @@ import com.keygenqt.forms.base.TextFieldError
  * @param state remember with FormFieldState for management TextField.
  * @param icVisibilityOff Resources object to query the image file from.
  * @param icVisibilityOn Resources object to query the image file from.
+ * @param filter allows you to filter out all characters except those specified in the string
  * @param maxLength Maximum allowed field length.
  * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
  * @param contentError the optional error to be displayed inside the text field container.
  *
- * @since 0.0.6
+ * @since 0.0.7
  * @author Vitaliy Zarubin
  */
 @Composable
@@ -69,6 +71,7 @@ fun FormFieldPassword(
     tintIcon: Color = MaterialTheme.colors.primary,
     icVisibilityOff: Int = R.drawable.ic_visibility_off,
     icVisibilityOn: Int = R.drawable.ic_visibility,
+    filter: String? = null,
     maxLength: Int? = null,
     placeholder: String? = null,
     contentError: @Composable (() -> Unit)? = null,
@@ -77,8 +80,19 @@ fun FormFieldPassword(
     TextField(
         enabled = enabled,
         value = state.text,
-        onValueChange = {
-            if (it.text.length <= maxLength ?: Int.MAX_VALUE) state.text = it
+        onValueChange = { textFieldValue ->
+
+            // filter
+            val value = filter?.let {
+                textFieldValue.copy(text = textFieldValue.text.filter { c -> filter.contains(c) })
+            } ?: textFieldValue
+
+            // maxLength
+            if (value.text.length > maxLength ?: Int.MAX_VALUE) {
+                return@TextField
+            }
+
+            state.text = value
         },
         label = { Text(label) },
         placeholder = placeholder?.let { { Text(placeholder) } },

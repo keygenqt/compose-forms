@@ -32,6 +32,9 @@ Numeric fields have the parameter mask. Examples of mask:
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
  * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
+ * @param filter allows you to filter out all characters except those specified in the string
+ * @param maxLines the maximum height in terms of maximum number of visible lines.
+ * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
  * @param maxLength Maximum allowed field length.
  * @param mask +380 (###) ###-##-##, +7 (###) ###-##-##, +# (###) ###-##-##, ####-####-####-#### etc
  * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
@@ -49,6 +52,9 @@ fun FormField(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
+    filter: String? = null,
+    maxLines: Int = 1,
+    singleLine: Boolean = true,
     maxLength: Int? = null,
     mask: String? = null,
     placeholder: String? = null,
