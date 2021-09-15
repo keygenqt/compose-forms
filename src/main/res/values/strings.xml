@@ -8,4 +8,7 @@
     <string name="form_fields_email">Email</string>
     <string name="form_fields_phone">Phone</string>
     <string name="form_fields_password">Password</string>
+
+    <!-- Error -->
+    <string name="form_error_emoji">Doesn\'t support emoji insertion here</string>
 </resources>

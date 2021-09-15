@@ -16,12 +16,13 @@
 
 package com.keygenqt.forms.fields
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
@@ -34,6 +35,8 @@ import com.keygenqt.forms.R
 import com.keygenqt.forms.base.FormFieldState
 import com.keygenqt.forms.base.TextFieldError
 import com.keygenqt.forms.base.onValueChangeMask
+import com.vdurmont.emoji.EmojiParser
+import kotlinx.coroutines.launch
 
 /**
  * Default form field
@@ -47,7 +50,8 @@ import com.keygenqt.forms.base.onValueChangeMask
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
  * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
- * @param filter allows you to filter out all characters except those specified in the string
+ * @param filter allows you to filter out all characters except those specified in the string.
+ * @param filterEmoji Prevent or Allow emoji input for KeyboardType.Text
  * @param maxLines the maximum height in terms of maximum number of visible lines.
  * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
  * @param maxLength Maximum allowed field length.
@@ -71,6 +75,7 @@ fun FormField(
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
     filter: String? = null,
+    filterEmoji: Boolean = false,
     maxLines: Int = 1,
     singleLine: Boolean = true,
     maxLength: Int? = null,
@@ -79,6 +84,10 @@ fun FormField(
     keyboardType: KeyboardType = KeyboardType.Text,
     contentError: @Composable (() -> Unit)? = null,
 ) {
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     TextField(
         maxLines = maxLines,
         singleLine = singleLine,
@@ -87,10 +96,22 @@ fun FormField(
         textStyle = textStyle,
         onValueChange = { textFieldValue ->
             // filter
-            val value = filter?.let {
+            var value = filter?.let {
                 val filterWithMask = mask?.let { mask + filter } ?: filter
                 textFieldValue.copy(text = textFieldValue.text.filter { c -> filterWithMask.contains(c) })
             } ?: textFieldValue
+
+            // filter Emoji
+            if (filterEmoji) {
+                EmojiParser.removeAllEmojis(value.text)?.let {
+                    if (it.length != value.text.length) {
+                        scope.launch {
+                            Toast.makeText(context, R.string.form_error_emoji, Toast.LENGTH_SHORT).show()
+                        }
+                        value = value.copy(text = it)
+                    }
+                }
+            }
 
             // maxLength
             if (value.text.length > maxLength ?: Int.MAX_VALUE) {
