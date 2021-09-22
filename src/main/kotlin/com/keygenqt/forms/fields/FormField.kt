@@ -16,42 +16,60 @@
 
 package com.keygenqt.forms.fields
 
-import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.layout.relocationRequester
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.google.accompanist.insets.LocalWindowInsets
 import com.keygenqt.forms.R
 import com.keygenqt.forms.base.FormFieldState
 import com.keygenqt.forms.base.TextFieldError
 import com.keygenqt.forms.base.onValueChangeMask
 import com.vdurmont.emoji.EmojiParser
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
  * Default form field
  *
  * @param modifier modifier to apply to this layout node.
- * @param enabled controls the enabled state of the TextField.
+ * @param enabled controls the enabled state of the [TextField].
+ * @param readOnly controls the editable state of the [TextField].
  * @param label the optional label to be displayed.
  * @param textStyle Styling configuration for a Text.
  * @param imeAction Signals the keyboard what type of action should be displayed. It is not guaranteed if the keyboard will show the requested action.
+ * @param visualTransformation
  * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in response to users triggering IME action on the software keyboard.
+ * @param leadingIcon the optional leading icon to be displayed at the beginning of the text field container
+ * @param trailingIcon the optional trailing icon to be displayed at the end of the text field container
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
  * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
  * @param filter allows you to filter out all characters except those specified in the string.
  * @param filterEmoji Prevent or Allow emoji input for KeyboardType.Text
+ * @param lines height in lines.
  * @param maxLines the maximum height in terms of maximum number of visible lines.
  * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
  * @param maxLength Maximum allowed field length.
@@ -60,22 +78,28 @@ import kotlinx.coroutines.launch
  * @param keyboardType keyboard type used to request an IME.
  * @param contentError the optional error to be displayed inside the text field container.
  *
- * @since 0.0.7
+ * @since 0.0.9
  * @author Vitaliy Zarubin
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FormField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    label: String = stringResource(id = R.string.form_field),
+    readOnly: Boolean = false,
+    label: String? = null,
     textStyle: TextStyle = LocalTextStyle.current,
     imeAction: ImeAction = ImeAction.Next,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardActions: KeyboardActions = KeyboardActions(),
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
     filter: String? = null,
     filterEmoji: Boolean = false,
+    lines: Int? = null,
     maxLines: Int = 1,
     singleLine: Boolean = true,
     maxLength: Int? = null,
@@ -88,12 +112,31 @@ fun FormField(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
+    val sizeDp = with(LocalDensity.current) {
+        textStyle.fontSize.value.sp.toDp() + 3.dp /* space */
+    }
+
+    // clear focus if keyboard hide
+    val ime = LocalWindowInsets.current.ime
+    val localFocusManager = LocalFocusManager.current
+
+    LaunchedEffect(ime.isVisible) {
+        if (!ime.isVisible) {
+            // clear focuses
+            localFocusManager.clearFocus()
+        }
+    }
+
     TextField(
         maxLines = maxLines,
         singleLine = singleLine,
         enabled = enabled,
+        readOnly = readOnly,
         value = state.text,
         textStyle = textStyle,
+        visualTransformation = visualTransformation,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
         onValueChange = { textFieldValue ->
             // filter
             var value = filter?.let {
@@ -126,15 +169,31 @@ fun FormField(
                 state.text = onValueChange?.invoke(value) ?: value
             }
         },
-        label = {
-            Text(label)
+        label = label?.let {
+            {
+                Text(label)
+            }
         },
         placeholder = placeholder?.let { { Text(placeholder) } },
         modifier = modifier
+            .defaultMinSize(minHeight = lines?.let {
+                sizeDp
+                    .times(lines)
+                    .plus(40.dp /* body field */)
+            }
+                ?: Dp.Unspecified)
             .fillMaxWidth()
+            .focusRequester(state.focus)
+            .relocationRequester(state.relocation)
             .onFocusChanged { focusState ->
                 if (focusState.isFocused) {
+                    // to end position
                     state.positionToEnd()
+                    // focus to input
+                    scope.launch {
+                        delay(300) // keyboard change
+                        state.bringIntoView()
+                    }
                 }
             },
         isError = state.hasErrors,

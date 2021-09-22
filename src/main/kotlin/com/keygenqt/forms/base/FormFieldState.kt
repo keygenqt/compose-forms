@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.forms.base
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.layout.RelocationRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.input.TextFieldValue
  * @since 0.0.2
  * @author Vitaliy Zarubin
  */
+@OptIn(ExperimentalComposeUiApi::class)
 open class FormFieldState(
     text: String = "",
     private val checkValid: (String) -> List<(Context) -> String> = { emptyList() },
@@ -41,6 +44,9 @@ open class FormFieldState(
     private var _default = TextFieldValue(text = text)
     private var _text: TextFieldValue by mutableStateOf(_default)
     private var _errors: List<(Context) -> String> by mutableStateOf(listOf())
+
+    val focus: FocusRequester by mutableStateOf(FocusRequester())
+    val relocation: RelocationRequester by mutableStateOf(RelocationRequester())
 
     var text: TextFieldValue
         get() = _text
@@ -87,5 +93,13 @@ open class FormFieldState(
     fun clear(): FormFieldState {
         _text = _default
         return this
+    }
+
+    fun requestFocus() {
+        focus.requestFocus()
+    }
+
+    fun bringIntoView() {
+        relocation.bringIntoView()
     }
 }

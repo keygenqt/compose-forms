@@ -24,16 +24,21 @@ Numeric fields have the parameter mask. Examples of mask:
 ```kotlin
 /**
  * @param modifier modifier to apply to this layout node.
- * @param enabled controls the enabled state of the TextField.
+ * @param enabled controls the enabled state of the [TextField].
+ * @param readOnly controls the editable state of the [TextField].
  * @param label the optional label to be displayed.
  * @param textStyle Styling configuration for a Text.
  * @param imeAction Signals the keyboard what type of action should be displayed. It is not guaranteed if the keyboard will show the requested action.
+ * @param visualTransformation
  * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in response to users triggering IME action on the software keyboard.
+ * @param leadingIcon the optional leading icon to be displayed at the beginning of the text field container
+ * @param trailingIcon the optional trailing icon to be displayed at the end of the text field container
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
  * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
  * @param filter allows you to filter out all characters except those specified in the string.
  * @param filterEmoji Prevent or Allow emoji input for KeyboardType.Text
+ * @param lines height in lines.
  * @param maxLines the maximum height in terms of maximum number of visible lines.
  * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
  * @param maxLength Maximum allowed field length.
@@ -42,19 +47,25 @@ Numeric fields have the parameter mask. Examples of mask:
  * @param keyboardType keyboard type used to request an IME.
  * @param contentError the optional error to be displayed inside the text field container.
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FormField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    label: String = stringResource(id = R.string.form_field),
+    readOnly: Boolean = false,
+    label: String? = null,
     textStyle: TextStyle = LocalTextStyle.current,
     imeAction: ImeAction = ImeAction.Next,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardActions: KeyboardActions = KeyboardActions(),
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
     filter: String? = null,
     filterEmoji: Boolean = false,
+    lines: Int? = null,
     maxLines: Int = 1,
     singleLine: Boolean = true,
     maxLength: Int? = null,

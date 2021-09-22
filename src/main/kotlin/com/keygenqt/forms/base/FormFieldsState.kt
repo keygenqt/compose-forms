@@ -42,7 +42,14 @@ class FormFieldsState {
     }
 
     fun validate() {
-        states.forEach { it.value.validate() }
+        var isFocus = false
+        states.forEach {
+            it.value.validate()
+            if (!isFocus && it.value.hasErrors) {
+                it.value.requestFocus()
+                isFocus = true
+            }
+        }
     }
 
     fun clearError() {

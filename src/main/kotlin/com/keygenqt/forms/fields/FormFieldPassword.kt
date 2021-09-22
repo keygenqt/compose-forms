@@ -77,25 +77,20 @@ fun FormFieldPassword(
     contentError: @Composable (() -> Unit)? = null,
 ) {
     var visibility: Boolean by remember { mutableStateOf(false) }
-    TextField(
+    FormField(
+        modifier = modifier,
         enabled = enabled,
-        value = state.text,
-        onValueChange = { textFieldValue ->
-
-            // filter
-            val value = filter?.let {
-                textFieldValue.copy(text = textFieldValue.text.filter { c -> filter.contains(c) })
-            } ?: textFieldValue
-
-            // maxLength
-            if (value.text.length > maxLength ?: Int.MAX_VALUE) {
-                return@TextField
-            }
-
-            state.text = value
-        },
-        label = { Text(label) },
-        placeholder = placeholder?.let { { Text(placeholder) } },
+        label = label,
+        textStyle = textStyle,
+        imeAction = imeAction,
+        keyboardActions = keyboardActions,
+        colors = colors,
+        state = state,
+        filter = filter,
+        maxLength = maxLength,
+        placeholder = placeholder,
+        contentError = contentError,
+        keyboardType = KeyboardType.Password,
         visualTransformation = if (visibility) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
             IconButton(onClick = { visibility = !visibility }) {
@@ -106,21 +101,5 @@ fun FormFieldPassword(
                 )
             }
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .onFocusChanged { focusState ->
-                if (focusState.isFocused) {
-                    state.positionToEnd()
-                }
-            },
-        textStyle = textStyle,
-        isError = state.hasErrors,
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = imeAction, keyboardType = KeyboardType.Password),
-        keyboardActions = keyboardActions,
-        colors = colors
     )
-
-    state.getError(LocalContext.current)?.let { error ->
-        contentError?.invoke() ?: TextFieldError(text = error)
-    }
 }

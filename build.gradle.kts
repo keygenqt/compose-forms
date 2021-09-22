@@ -7,8 +7,9 @@ plugins {
 }
 
 val compose = "1.0.2"
+val accompanist = "0.18.0"
 
-version = "0.0.8"
+version = "0.0.9"
 group = "com.keygenqt.forms"
 
 spotless {
@@ -70,4 +71,6 @@ dependencies {
     implementation("com.vdurmont:emoji-java:5.1.1")
     implementation("androidx.compose.ui:ui:$compose")
     implementation("androidx.compose.material:material:$compose")
+    implementation("com.google.accompanist:accompanist-insets:$accompanist")
+    implementation("com.google.accompanist:accompanist-insets-ui:$accompanist")
 }
