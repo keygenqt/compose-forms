@@ -13,10 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.keygenqt.forms.base
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.layout.RelocationRequester
 import androidx.compose.ui.text.input.TextFieldValue
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * State management TextField multiple
@@ -25,6 +31,10 @@ import androidx.compose.ui.text.input.TextFieldValue
  * @author Vitaliy Zarubin
  */
 class FormFieldsState {
+
+    private val _isValidate: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+    val isValidate: StateFlow<Boolean> get() = _isValidate.asStateFlow()
 
     private val states = mutableMapOf<FormStates, FormFieldState>()
 
@@ -50,9 +60,11 @@ class FormFieldsState {
                 isFocus = true
             }
         }
+        _isValidate.value = true
     }
 
     fun clearError() {
+        _isValidate.value = false
         states.forEach { it.value.clearError() }
     }
 
