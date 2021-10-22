@@ -44,6 +44,7 @@ open class FormFieldState(
     private var _default = TextFieldValue(text = text)
     private var _text: TextFieldValue by mutableStateOf(_default)
     private var _errors: List<(Context) -> String> by mutableStateOf(listOf())
+    private var _maxValue: Int by mutableStateOf(Int.MAX_VALUE)
 
     val focus: FocusRequester by mutableStateOf(FocusRequester())
     val relocation: RelocationRequester by mutableStateOf(RelocationRequester())
@@ -70,8 +71,31 @@ open class FormFieldState(
         return _errors.firstOrNull()?.invoke(context)
     }
 
+    fun setMaxValue(max: Int) {
+        _maxValue = max
+    }
+
     fun getValue(): String {
         return _text.text
+    }
+
+    fun setValue(text: String) {
+        if (text.length <= _maxValue) {
+            this.text = TextFieldValue(text)
+            positionToEnd()
+        }
+    }
+
+    fun addValue(text: String) {
+        if ((getValue() + text).length <= _maxValue) {
+            this.text = TextFieldValue(getValue() + text)
+            positionToEnd()
+        }
+    }
+
+    fun removeLast() {
+        this.text = TextFieldValue(getValue().dropLast(1))
+        positionToEnd()
     }
 
     fun setError(error: (Context) -> String) {
