@@ -6,8 +6,8 @@ plugins {
     id("com.diffplug.spotless")
 }
 
-val compose = "1.0.2"
-val accompanist = "0.18.0"
+val compose = "1.0.5"
+val accompanist = "0.20.0"
 
 version = "0.0.11"
 group = "com.keygenqt.forms"
@@ -73,4 +73,5 @@ dependencies {
     implementation("androidx.compose.material:material:$compose")
     implementation("com.google.accompanist:accompanist-insets:$accompanist")
     implementation("com.google.accompanist:accompanist-insets-ui:$accompanist")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha01")
 }

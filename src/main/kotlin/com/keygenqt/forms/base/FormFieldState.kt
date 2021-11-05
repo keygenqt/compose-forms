@@ -17,14 +17,16 @@
 package com.keygenqt.forms.base
 
 import android.content.Context
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.layout.RelocationRequester
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import kotlinx.coroutines.runBlocking
 
 /**
  * State management TextField
@@ -47,7 +49,9 @@ open class FormFieldState(
     private var _maxValue: Int by mutableStateOf(Int.MAX_VALUE)
 
     val focus: FocusRequester by mutableStateOf(FocusRequester())
-    val relocation: RelocationRequester by mutableStateOf(RelocationRequester())
+
+    @ExperimentalFoundationApi
+    val relocation: BringIntoViewRequester by mutableStateOf(BringIntoViewRequester())
 
     var text: TextFieldValue
         get() = _text
@@ -123,7 +127,8 @@ open class FormFieldState(
         focus.requestFocus()
     }
 
-    fun bringIntoView() {
+    @OptIn(ExperimentalFoundationApi::class)
+    suspend fun bringIntoView() {
         relocation.bringIntoView()
     }
 }

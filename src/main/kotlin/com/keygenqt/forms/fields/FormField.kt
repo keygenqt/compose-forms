@@ -17,8 +17,10 @@
 package com.keygenqt.forms.fields
 
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -30,7 +32,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.layout.relocationRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
@@ -81,7 +82,7 @@ import kotlinx.coroutines.launch
  * @since 0.0.9
  * @author Vitaliy Zarubin
  */
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun FormField(
     modifier: Modifier = Modifier,
@@ -141,7 +142,11 @@ fun FormField(
             // filter
             var value = filter?.let {
                 val filterWithMask = mask?.let { mask + filter } ?: filter
-                textFieldValue.copy(text = textFieldValue.text.filter { c -> filterWithMask.contains(c) })
+                textFieldValue.copy(text = textFieldValue.text.filter { c ->
+                    filterWithMask.contains(
+                        c
+                    )
+                })
             } ?: textFieldValue
 
             // filter Emoji
@@ -149,7 +154,8 @@ fun FormField(
                 EmojiParser.removeAllEmojis(value.text)?.let {
                     if (it.length != value.text.length) {
                         scope.launch {
-                            Toast.makeText(context, R.string.form_error_emoji, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, R.string.form_error_emoji, Toast.LENGTH_SHORT)
+                                .show()
                         }
                         value = value.copy(text = it)
                     }
@@ -175,6 +181,7 @@ fun FormField(
             }
         },
         placeholder = placeholder?.let { { Text(placeholder) } },
+
         modifier = modifier
             .defaultMinSize(minHeight = lines?.let {
                 sizeDp
@@ -184,7 +191,7 @@ fun FormField(
                 ?: Dp.Unspecified)
             .fillMaxWidth()
             .focusRequester(state.focus)
-            .relocationRequester(state.relocation)
+            .bringIntoViewRequester(state.relocation)
             .onFocusChanged { focusState ->
                 if (focusState.isFocused) {
                     // to end position
@@ -197,7 +204,10 @@ fun FormField(
                 }
             },
         isError = state.hasErrors,
-        keyboardOptions = KeyboardOptions.Default.copy(imeAction = imeAction, keyboardType = keyboardType),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            imeAction = imeAction,
+            keyboardType = keyboardType
+        ),
         keyboardActions = keyboardActions,
         colors = colors
     )
