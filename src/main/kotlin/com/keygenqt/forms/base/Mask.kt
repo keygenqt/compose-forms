@@ -41,7 +41,11 @@ fun mock(value: String, mask1: String): String {
  */
 fun String.clearMask(mask: String): String {
     val value = mask.replace("""[^\d]+""".toRegex(), "")
-    return if (this != value && this.length == 1) this else this.drop(value.length)
+    return if (this.length <= value.length || !this.contains(value)) {
+        this
+    } else {
+        this.drop(value.length)
+    }
 }
 
 /**
@@ -92,7 +96,7 @@ val onValueChangeMask: (String, FormFieldState, TextFieldValue) -> TextFieldValu
             text = value,
             selection = TextRange(mask.substringBefore("#").length + 1, mask.substringBefore("#").length + 1)
         )
-    } else if (clearValue == clearMask) {
+    } else if (state == TextFieldState.REMOVE && clearValue == clearMask) {
         TextFieldValue(
             text = "",
             selection = TextRange(0, 0)
