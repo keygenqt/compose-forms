@@ -96,7 +96,7 @@ val onValueChangeMask: (String, FormFieldState, TextFieldValue) -> TextFieldValu
             text = value,
             selection = TextRange(mask.substringBefore("#").length + 1, mask.substringBefore("#").length + 1)
         )
-    } else if (state == TextFieldState.REMOVE && clearValue == clearMask) {
+    } else if (state == TextFieldState.REMOVE && (clearValue == clearMask || clearValue == "")) {
         TextFieldValue(
             text = "",
             selection = TextRange(0, 0)
@@ -106,7 +106,7 @@ val onValueChangeMask: (String, FormFieldState, TextFieldValue) -> TextFieldValu
             TextFieldState.REMOVE, TextFieldState.ADDED, TextFieldState.MOVE -> clearValue.let { text ->
                 mock(text.clearMask(mask), mask)
                     .substringBefore("#")
-                    .dropLastWhile { it !in '0'..'9' }
+                    .dropLastWhile { it !in '0'..'9' && it != '(' }
                     .take(mask.length)
                     .let { mockText ->
                         TextFieldValue(
