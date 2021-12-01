@@ -26,10 +26,12 @@ import androidx.compose.ui.text.input.TextFieldValue
  * @author Vitaliy Zarubin
  */
 tailrec
-fun mock(value: String, mask1: String): String {
-    return if (value.isEmpty()) mask1 else mock(
-        value.drop(1),
-        mask1.replaceFirst("#", value.first().toString())
+fun mock(text: String, maskFirstInt: String?, valueClear: String, mask1: String): String {
+    return if (valueClear.isEmpty() || text == maskFirstInt) mask1 else mock(
+        text,
+        maskFirstInt,
+        valueClear.drop(1),
+        mask1.replaceFirst("#", valueClear.first().toString())
     )
 }
 
@@ -67,15 +69,16 @@ enum class TextFieldState {
  * @since 0.0.5
  * @author Vitaliy Zarubin
  */
-val onValueChangeMaskState: (String, FormFieldState, TextFieldValue) -> TextFieldState = { mask, formState, textFieldValue ->
-    val value = textFieldValue.text.take(mask.length)
-    when {
-        formState.getValue().length > value.length -> TextFieldState.REMOVE
-        formState.getValue().length < value.length -> TextFieldState.ADDED
-        value.length == mask.length && textFieldValue.selection.start == textFieldValue.text.length -> TextFieldState.END
-        else -> TextFieldState.MOVE
+val onValueChangeMaskState: (String, FormFieldState, TextFieldValue) -> TextFieldState =
+    { mask, formState, textFieldValue ->
+        val value = textFieldValue.text.take(mask.length)
+        when {
+            formState.getValue().length > value.length -> TextFieldState.REMOVE
+            formState.getValue().length < value.length -> TextFieldState.ADDED
+            value.length == mask.length && textFieldValue.selection.start == textFieldValue.text.length -> TextFieldState.END
+            else -> TextFieldState.MOVE
+        }
     }
-}
 
 /**
  * Main job of providing field masking
@@ -83,54 +86,67 @@ val onValueChangeMaskState: (String, FormFieldState, TextFieldValue) -> TextFiel
  * @since 0.0.5
  * @author Vitaliy Zarubin
  */
-val onValueChangeMask: (String, FormFieldState, TextFieldValue) -> TextFieldValue = { mask, formState, textFieldValue ->
-    val value = textFieldValue.text.take(mask.length)
+val onValueChangeMask: (String, FormFieldState, TextFieldValue) -> TextFieldValue =
+    { mask, formState, textFieldValue ->
+        val value = textFieldValue.text.take(mask.length)
 
-    val state = onValueChangeMaskState.invoke(mask, formState, textFieldValue)
+        val state = onValueChangeMaskState.invoke(mask, formState, textFieldValue)
 
-    val clearValue = value.replace("""[^\d]+""".toRegex(), "")
-    val clearMask = mask.replace("""[^\d]+""".toRegex(), "")
+        val maskFirstInt =
+            if (mask.firstOrNull() == '+' && mask[1] in '0'..'9') mask[1].toString() else null
+        val clearValue = value.replace("""[^\d]+""".toRegex(), "")
+        val clearMask = mask.replace("""[^\d]+""".toRegex(), "")
 
-    if (state == TextFieldState.MOVE && textFieldValue.selection.start < mask.substringBefore("#").length) {
-        TextFieldValue(
-            text = value,
-            selection = TextRange(mask.substringBefore("#").length + 1, mask.substringBefore("#").length + 1)
-        )
-    } else if (state == TextFieldState.REMOVE && (clearValue == clearMask || clearValue == "")) {
-        TextFieldValue(
-            text = "",
-            selection = TextRange(0, 0)
-        )
-    } else {
-        when (state) {
-            TextFieldState.REMOVE, TextFieldState.ADDED, TextFieldState.MOVE -> clearValue.let { text ->
-                mock(text.clearMask(mask), mask)
-                    .substringBefore("#")
-                    .dropLastWhile { it !in '0'..'9' && it != '(' }
-                    .take(mask.length)
-                    .let { mockText ->
-                        TextFieldValue(
-                            text = mockText,
-                            selection = when (state) {
-                                TextFieldState.ADDED, TextFieldState.REMOVE -> if (textFieldValue.selection.start < value.length) {
-                                    val plus =
-                                        if (textFieldValue.selection.start < mask.substringBefore("#").length + 1) 1 else 0
-                                    TextRange(
-                                        textFieldValue.selection.start.plus(plus),
-                                        textFieldValue.selection.start.plus(plus)
-                                    )
-                                } else {
-                                    TextRange(mockText.length, mockText.length)
-                                }
-                                else -> textFieldValue.selection
-                            }
-                        )
-                    }
+        if (state == TextFieldState.MOVE && textFieldValue.selection.start < mask.substringBefore("#").length) {
+            if ((textFieldValue.selection.end - textFieldValue.selection.start) > 1) {
+                textFieldValue
+            } else {
+                TextFieldValue(
+                    text = value,
+                    selection = TextRange(
+                        mask.substringBefore("#").length + 1,
+                        mask.substringBefore("#").length + 1
+                    )
+                )
             }
-            TextFieldState.END -> TextFieldValue(
-                text = value.take(mask.length),
-                selection = textFieldValue.selection
+        } else if (state == TextFieldState.REMOVE && (clearValue == clearMask || clearValue == "")) {
+            TextFieldValue(
+                text = "",
+                selection = TextRange(0, 0)
             )
+        } else {
+            when (state) {
+                TextFieldState.REMOVE, TextFieldState.ADDED, TextFieldState.MOVE -> clearValue.let { text ->
+                    mock(text, maskFirstInt, text.clearMask(mask), mask)
+                        .substringBefore("#")
+                        .dropLastWhile { it !in '0'..'9' && it != '(' }
+                        .take(mask.length)
+                        .let { mockText ->
+                            TextFieldValue(
+                                text = mockText,
+                                selection = when (state) {
+                                    TextFieldState.ADDED, TextFieldState.REMOVE -> if (textFieldValue.selection.start < value.length) {
+                                        val plus =
+                                            if (textFieldValue.selection.start < mask.substringBefore(
+                                                    "#"
+                                                ).length + 1
+                                            ) 1 else 0
+                                        TextRange(
+                                            textFieldValue.selection.start.plus(plus),
+                                            textFieldValue.selection.start.plus(plus)
+                                        )
+                                    } else {
+                                        TextRange(mockText.length, mockText.length)
+                                    }
+                                    else -> textFieldValue.selection
+                                }
+                            )
+                        }
+                }
+                TextFieldState.END -> TextFieldValue(
+                    text = value.take(mask.length),
+                    selection = textFieldValue.selection
+                )
+            }
         }
     }
-}
