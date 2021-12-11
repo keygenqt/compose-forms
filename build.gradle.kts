@@ -9,7 +9,7 @@ plugins {
 val compose = "1.0.5"
 val accompanist = "0.20.0"
 
-version = "0.0.15"
+version = "0.0.16"
 group = "com.keygenqt.forms"
 
 spotless {
