@@ -17,6 +17,8 @@
 package com.keygenqt.forms.base
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.runtime.getValue
@@ -115,6 +117,7 @@ open class FormFieldState(
     fun default(value: String): FormFieldState {
         _default = TextFieldValue(text = value)
         _text = _default
+        positionToEnd()
         return this
     }
 
