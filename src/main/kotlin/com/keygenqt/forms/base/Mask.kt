@@ -43,7 +43,7 @@ fun mock(text: String, maskFirstInt: String?, valueClear: String, mask1: String)
  */
 fun String.clearMask(mask: String): String {
     val value = mask.replace("""[^\d]+""".toRegex(), "")
-    return if (this.length <= value.length || !this.isNullOrEmpty() && !value.isNullOrEmpty() && this[0] != value[0]) {
+    return if (this.length <= value.length || !this.contains(value)) {
         this
     } else {
         this.drop(value.length)
@@ -57,9 +57,6 @@ fun String.clearMask(mask: String): String {
  * @author Vitaliy Zarubin
  */
 enum class TextFieldState {
-    /**
-     * REMOVE is not neccesary for now
-     */
     REMOVE,
     ADDED,
     END,
@@ -76,10 +73,9 @@ val onValueChangeMaskState: (String, FormFieldState, TextFieldValue) -> TextFiel
     { mask, formState, textFieldValue ->
         val value = textFieldValue.text.take(mask.length)
         when {
-            formState.getValue().length > value.length -> TextFieldState.ADDED
+            formState.getValue().length > value.length -> TextFieldState.REMOVE
             formState.getValue().length < value.length -> TextFieldState.ADDED
-            textFieldValue.selection.start == textFieldValue.text.length -> TextFieldState.ADDED
-            value.length == mask.length -> TextFieldState.END
+            value.length == mask.length && textFieldValue.selection.start == textFieldValue.text.length -> TextFieldState.END
             else -> TextFieldState.MOVE
         }
     }
