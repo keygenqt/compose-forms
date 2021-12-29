@@ -44,7 +44,6 @@ import com.keygenqt.forms.states.EmailStateValidate
  * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in response to users triggering IME action on the software keyboard.
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
- * @param filter allows you to filter out all characters except those specified in the string
  * @param maxLines the maximum height in terms of maximum number of visible lines.
  * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
  * @param maxLength Maximum allowed field length.
@@ -64,7 +63,6 @@ fun FormFieldEmail(
     keyboardActions: KeyboardActions = KeyboardActions(),
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { EmailStateValidate() },
-    filter: String? = null,
     maxLines: Int = 1,
     singleLine: Boolean = true,
     maxLength: Int? = null,
@@ -79,7 +77,6 @@ fun FormFieldEmail(
     keyboardActions = keyboardActions,
     colors = colors,
     state = state,
-    filter = filter,
     maxLines = maxLines,
     singleLine = singleLine,
     maxLength = maxLength,

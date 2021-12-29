@@ -43,7 +43,6 @@ import com.keygenqt.forms.states.PhoneStateValidate
  * @param keyboardActions The KeyboardActions class allows developers to specify actions that will be triggered in response to users triggering IME action on the software keyboard.
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
- * @param filter allows you to filter out all characters except those specified in the string
  * @param maxLines the maximum height in terms of maximum number of visible lines.
  * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
  * @param maxLength Maximum allowed field length.
@@ -65,7 +64,6 @@ fun FormFieldPhone(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { PhoneStateValidate() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
-    filter: String? = null,
     maxLines: Int = 1,
     singleLine: Boolean = true,
     maxLength: Int? = null,
@@ -82,7 +80,6 @@ fun FormFieldPhone(
     colors = colors,
     state = state,
     onValueChange = onValueChange,
-    filter = filter,
     maxLines = maxLines,
     singleLine = singleLine,
     maxLength = maxLength,

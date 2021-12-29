@@ -16,7 +16,6 @@
 
 package com.keygenqt.forms.fields
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,11 +43,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.LocalWindowInsets
-import com.keygenqt.forms.R
 import com.keygenqt.forms.base.FormFieldState
 import com.keygenqt.forms.base.TextFieldError
 import com.keygenqt.forms.base.onValueChangeMask
-import com.vdurmont.emoji.EmojiParser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -68,8 +65,6 @@ import kotlinx.coroutines.launch
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
  * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
- * @param filter allows you to filter out all characters except those specified in the string.
- * @param filterEmoji Prevent or Allow emoji input for KeyboardType.Text
  * @param lines height in lines.
  * @param maxLines the maximum height in terms of maximum number of visible lines.
  * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
@@ -98,8 +93,6 @@ fun FormField(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
-    filter: String? = null,
-    filterEmoji: Boolean = false,
     lines: Int? = null,
     maxLines: Int = 1,
     singleLine: Boolean = true,
@@ -110,7 +103,6 @@ fun FormField(
     contentError: @Composable (() -> Unit)? = null,
 ) {
 
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val sizeDp = with(LocalDensity.current) {
@@ -139,40 +131,16 @@ fun FormField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         onValueChange = { textFieldValue ->
-            // filter
-            var value = filter?.let {
-                val filterWithMask = mask?.let { mask + filter } ?: filter
-                textFieldValue.copy(text = textFieldValue.text.filter { c ->
-                    filterWithMask.contains(
-                        c
-                    )
-                })
-            } ?: textFieldValue
-
-            // filter Emoji
-            if (filterEmoji) {
-                EmojiParser.removeAllEmojis(value.text)?.let {
-                    if (it.length != value.text.length) {
-                        scope.launch {
-                            Toast.makeText(context, R.string.form_error_emoji, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                        value = value.copy(text = it)
-                    }
-                }
-            }
-
             // maxLength
-            if (value.text.length > maxLength ?: Int.MAX_VALUE) {
+            if (textFieldValue.text.length > maxLength ?: Int.MAX_VALUE) {
                 return@TextField
             }
-
             mask?.let {
                 // mask
-                state.text = onValueChangeMask.invoke(mask, state, value)
+                state.text = onValueChangeMask.invoke(mask, state, textFieldValue)
             } ?: run {
                 // custom or default
-                state.text = onValueChange?.invoke(value) ?: value
+                state.text = onValueChange?.invoke(textFieldValue) ?: textFieldValue
             }
         },
         label = label?.let {

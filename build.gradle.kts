@@ -6,10 +6,10 @@ plugins {
     id("com.diffplug.spotless")
 }
 
-val compose = "1.0.5"
-val accompanist = "0.20.0"
+val composeVersion: String = findProperty("composeVersion") as? String ?: "1.1.0-rc01"
+val accompanist = "0.21.5-rc"
 
-version = "0.0.19"
+version = "0.0.20"
 group = "com.keygenqt.forms"
 
 spotless {
@@ -55,7 +55,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = compose
+        kotlinCompilerExtensionVersion = composeVersion
     }
 
     buildFeatures {
@@ -68,10 +68,9 @@ android {
 }
 
 dependencies {
-    implementation("com.vdurmont:emoji-java:5.1.1")
-    implementation("androidx.compose.ui:ui:$compose")
-    implementation("androidx.compose.material:material:$compose")
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.material:material:$composeVersion")
     implementation("com.google.accompanist:accompanist-insets:$accompanist")
     implementation("com.google.accompanist:accompanist-insets-ui:$accompanist")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha01")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha02")
 }

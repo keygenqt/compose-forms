@@ -19,12 +19,9 @@ package com.keygenqt.forms.base
 import android.os.Handler
 import android.os.Looper
 import androidx.compose.ui.text.input.TextFieldValue
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 /**
  * State management TextField multiple

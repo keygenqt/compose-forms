@@ -50,7 +50,6 @@ import com.keygenqt.forms.base.TextFieldError
  * @param state remember with FormFieldState for management TextField.
  * @param icVisibilityOff Resources object to query the image file from.
  * @param icVisibilityOn Resources object to query the image file from.
- * @param filter allows you to filter out all characters except those specified in the string
  * @param maxLength Maximum allowed field length.
  * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
  * @param contentError the optional error to be displayed inside the text field container.
@@ -71,7 +70,6 @@ fun FormFieldPassword(
     tintIcon: Color = MaterialTheme.colors.primary,
     icVisibilityOff: Int = R.drawable.ic_visibility_off,
     icVisibilityOn: Int = R.drawable.ic_visibility,
-    filter: String? = null,
     maxLength: Int? = null,
     placeholder: String? = null,
     contentError: @Composable (() -> Unit)? = null,
@@ -86,7 +84,6 @@ fun FormFieldPassword(
         keyboardActions = keyboardActions,
         colors = colors,
         state = state,
-        filter = filter,
         maxLength = maxLength,
         placeholder = placeholder,
         contentError = contentError,
