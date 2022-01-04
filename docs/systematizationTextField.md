@@ -10,18 +10,22 @@ Default fields form
 * FormFieldPhone
 * FormFieldNumber
 
-#### FormFieldPhone and FormFieldNumber
+#### FormField numbers
 
-Numeric fields have the parameter mask. Examples of mask:
+Numeric fields (FormFieldPhone, FormFieldNumber) have the parameter mask. Examples of mask:
 
-* +380 (###) ###-##-##
-* +7 (###) ###-##-##
-* +# (###) ###-##-##
-* ####-####-####-####
+```
++380 (###) ###-##-##
++7 (###) ###-##-##
++# (###) ###-##-##
+####-####-####-####
+```
 
 #### Params
 ```kotlin
 /**
+ * Default form field
+ *
  * @param modifier modifier to apply to this layout node.
  * @param enabled controls the enabled state of the [TextField].
  * @param readOnly controls the editable state of the [TextField].
@@ -35,8 +39,6 @@ Numeric fields have the parameter mask. Examples of mask:
  * @param colors TextFieldColors for settings colors
  * @param state remember with FormFieldState for management TextField.
  * @param onValueChange the callback that is triggered when the input service updates values in [TextFieldValue].
- * @param filter allows you to filter out all characters except those specified in the string.
- * @param filterEmoji Prevent or Allow emoji input for KeyboardType.Text
  * @param lines height in lines.
  * @param maxLines the maximum height in terms of maximum number of visible lines.
  * @param singleLine field becomes a single horizontally scrolling text field instead of wrapping onto multiple lines.
@@ -46,7 +48,7 @@ Numeric fields have the parameter mask. Examples of mask:
  * @param keyboardType keyboard type used to request an IME.
  * @param contentError the optional error to be displayed inside the text field container.
  */
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun FormField(
     modifier: Modifier = Modifier,
@@ -62,8 +64,6 @@ fun FormField(
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
     onValueChange: ((TextFieldValue) -> TextFieldValue)? = null,
-    filter: String? = null,
-    filterEmoji: Boolean = false,
     lines: Int? = null,
     maxLines: Int = 1,
     singleLine: Boolean = true,
@@ -75,7 +75,10 @@ fun FormField(
 )
 ```
 
-#### Usage with form -> [@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/form/SignInFieldsForm.kt#L24) <-
+#### Usage with form
+
+[@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/form/SignInFieldsForm.kt#L24) <-
+
 ```kotlin
 // Create form
 enum class SignInFieldsForm(val state: FormFieldState) : FormStates {
@@ -84,7 +87,10 @@ enum class SignInFieldsForm(val state: FormFieldState) : FormStates {
 }
 ```
 
-#### Example composable form -> [@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/screens/signIn/SignInForm.kt#L52) <-
+#### Example composable form
+
+[@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/screens/signIn/SignInForm.kt#L52) <-
+
 ```kotlin
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

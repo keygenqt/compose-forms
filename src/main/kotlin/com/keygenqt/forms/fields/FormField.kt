@@ -73,9 +73,6 @@ import kotlinx.coroutines.launch
  * @param placeholder the optional placeholder to be displayed when the text field is in focus and the input text is empty
  * @param keyboardType keyboard type used to request an IME.
  * @param contentError the optional error to be displayed inside the text field container.
- *
- * @since 0.0.9
- * @author Vitaliy Zarubin
  */
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
