@@ -184,5 +184,5 @@ fun SignInForm(
 ### Preview
 
 <p>
-<img src="https://github.com/keygenqt/compose-forms/blob/gh-pages/data/vokoscreen-2021-09-14_20-10-40.gif?raw=true" width="33%"/>
+<img src="https://github.com/keygenqt/compose-forms/blob/gh-pages/data/vokoscreen-2021-09-14_20-10-40.gif?raw=true" width="45%"/>
 </p>
