@@ -77,7 +77,7 @@ fun FormField(
 
 #### Usage with form
 
-[@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/form/SignInFieldsForm.kt#L24) <-
+-> [@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/form/SignInFieldsForm.kt#L24) <-
 
 ```kotlin
 // Create form
@@ -89,7 +89,7 @@ enum class SignInFieldsForm(val state: FormFieldState) : FormStates {
 
 #### Example composable form
 
-[@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/screens/signIn/SignInForm.kt#L52) <-
+-> [@see](https://github.com/keygenqt/android-DemoCompose/blob/master/app/src/main/kotlin/com/keygenqt/demo_contacts/modules/other/ui/screens/signIn/SignInForm.kt#L52) <-
 
 ```kotlin
 @OptIn(ExperimentalComposeUiApi::class)
