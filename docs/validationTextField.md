@@ -1,5 +1,3 @@
-## Validation TextField
-
 You can make validate state both custom and use ready-made
 
 ### Ready-made states
