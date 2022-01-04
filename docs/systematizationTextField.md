@@ -13,6 +13,7 @@ Default fields form
 #### FormFieldPhone and FormFieldNumber
 
 Numeric fields have the parameter mask. Examples of mask:
+
 * +380 (###) ###-##-##
 * +7 (###) ###-##-##
 * +# (###) ###-##-##
