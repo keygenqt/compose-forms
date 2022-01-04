@@ -1,0 +1,24 @@
+site_name: Compose Modifier Extension
+
+# Repository
+repo_name: 'Compose Modifier Extension'
+repo_url: 'https://github.com/keygenqt/compose-modifier-ext'
+
+# Navigation
+nav:
+  - 'Overview': index.md
+  - 'Item List Collapse': item_collapse.md
+  - 'Clickable': clickable.md
+  - 'Disable scroll': disable_scroll.md
+  - 'Boolean modification': boolean.md
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  palette:
+    primary: 'black'
+    accent: 'deep orange'
+  font:
+    text: 'Roboto'
+    code: 'JetBrains Mono'

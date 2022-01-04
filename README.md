@@ -1,8 +1,10 @@
 ## Compose Forms
 
-![picture](https://github.com/keygenqt/compose-forms/blob/master/data/just-image.png?raw=true)
+State automation, mask, field overloading
 
-Field state manager and basic set of validation, fields
+### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/view_day/materialicons/18dp/1x/baseline_view_day_black_18dp.png?raw=true) [More details](https://keygenqt.github.io/compose-forms/)
+
+![picture](https://github.com/keygenqt/compose-forms/blob/master/data/just-image.png?raw=true)
 
 ## Connection
 
@@ -16,22 +18,6 @@ dependencies {
     implementation("com.keygenqt.forms:compose-forms:{version}")
 }
 ```
-
-## Features:
-
-### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/build_circle/materialicons/18dp/1x/baseline_build_circle_black_18dp.png?raw=true) [State management TextField](https://keygenqt.github.io/compose-forms/stateTextField)
-The library calls for encapsulating state management
-
-### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/check_circle/materialicons/18dp/1x/baseline_check_circle_black_18dp.png?raw=true) [Validation TextField](https://keygenqt.github.io/compose-forms/validationTextField)
-You can add create custom states or use default states
-
-### ![picture](https://github.com/google/material-design-icons/blob/master/png/action/grading/materialicons/18dp/1x/baseline_grading_black_18dp.png?raw=true) [Systematization TextField and States](https://keygenqt.github.io/compose-forms/systematizationTextField)
-You can group fields into a form. You can make fields both custom and use ready-made
-
-### Preview
-<p>
-<img src="https://github.com/keygenqt/compose-forms/blob/master/data/vokoscreen-2021-09-14_20-10-40.gif?raw=true" width="33%"/>
-</p>
 
 ## License
 
