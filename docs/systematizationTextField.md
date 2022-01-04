@@ -1,5 +1,3 @@
-## Systematization TextField and States
-
 You can group fields into a form. You can make fields both custom and use ready-made
 
 #### Fields form

@@ -1,16 +1,15 @@
-site_name: Compose Modifier Extension
+site_name: Compose Forms
 
 # Repository
-repo_name: 'Compose Modifier Extension'
-repo_url: 'https://github.com/keygenqt/compose-modifier-ext'
+repo_name: 'Compose Forms'
+repo_url: 'https://github.com/keygenqt/compose-forms'
 
 # Navigation
 nav:
   - 'Overview': index.md
-  - 'Item List Collapse': item_collapse.md
-  - 'Clickable': clickable.md
-  - 'Disable scroll': disable_scroll.md
-  - 'Boolean modification': boolean.md
+  - 'State TextField': stateTextField.md
+  - 'Validation': validationTextField.md
+  - 'Systematization': systematizationTextField.md
 
 # Configuration
 theme:
