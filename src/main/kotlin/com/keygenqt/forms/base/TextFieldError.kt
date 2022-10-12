@@ -17,9 +17,9 @@
 package com.keygenqt.forms.base
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -45,7 +45,7 @@ fun TextFieldError(
                 .fillMaxWidth()
                 .padding(top = 4.dp),
             style = LocalTextStyle.current.copy(
-                color = MaterialTheme.colors.error,
+                color = MaterialTheme.colorScheme.error,
                 fontSize = 12.sp
             )
         )

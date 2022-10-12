@@ -17,12 +17,15 @@
 package com.keygenqt.forms.fields
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -42,7 +45,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.insets.LocalWindowInsets
 import com.keygenqt.forms.base.FormFieldState
 import com.keygenqt.forms.base.TextFieldError
 import com.keygenqt.forms.base.onValueChangeMask
@@ -74,7 +76,7 @@ import kotlinx.coroutines.launch
  * @param keyboardType keyboard type used to request an IME.
  * @param contentError the optional error to be displayed inside the text field container.
  */
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FormField(
     modifier: Modifier = Modifier,
@@ -107,15 +109,16 @@ fun FormField(
     }
 
     // clear focus if keyboard hide
-    val ime = LocalWindowInsets.current.ime
+    val ime = WindowInsets.ime
     val localFocusManager = LocalFocusManager.current
 
-    LaunchedEffect(ime.isVisible) {
-        if (!ime.isVisible) {
-            // clear focuses
-            localFocusManager.clearFocus()
-        }
-    }
+    // @todo
+//    LaunchedEffect(ime.isVisible) {
+//        if (!ime.isVisible) {
+//            // clear focuses
+//            localFocusManager.clearFocus()
+//        }
+//    }
 
     TextField(
         maxLines = maxLines,
@@ -129,7 +132,7 @@ fun FormField(
         trailingIcon = trailingIcon,
         onValueChange = { textFieldValue ->
             // maxLength
-            if (textFieldValue.text.length > maxLength ?: Int.MAX_VALUE) {
+            if (textFieldValue.text.length > (maxLength ?: Int.MAX_VALUE)) {
                 return@TextField
             }
             mask?.let {

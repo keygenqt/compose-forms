@@ -16,16 +16,11 @@
 
 package com.keygenqt.forms.fields
 
-import android.util.Log
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -35,7 +30,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.keygenqt.forms.R
 import com.keygenqt.forms.base.FormFieldState
-import com.keygenqt.forms.base.TextFieldError
 
 /**
  * Password form field with trailingIcon
@@ -57,6 +51,7 @@ import com.keygenqt.forms.base.TextFieldError
  * @since 0.0.7
  * @author Vitaliy Zarubin
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormFieldPassword(
     modifier: Modifier = Modifier,
@@ -67,7 +62,7 @@ fun FormFieldPassword(
     keyboardActions: KeyboardActions = KeyboardActions(),
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
     state: FormFieldState = remember { FormFieldState() },
-    tintIcon: Color = MaterialTheme.colors.primary,
+    tintIcon: Color = MaterialTheme.colorScheme.primary,
     icVisibilityOff: Int = R.drawable.ic_visibility_off,
     icVisibilityOn: Int = R.drawable.ic_visibility,
     maxLength: Int? = null,

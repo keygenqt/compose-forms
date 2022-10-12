@@ -37,10 +37,12 @@ android {
     }
 }
 
+// https://developer.android.com/jetpack/androidx/releases/compose
+val composeVersion = "1.2.1"
+// https://developer.android.com/jetpack/androidx/releases/compose-material3
+val material3Version = "1.0.0-rc01"
+
 dependencies {
-    implementation("androidx.compose.ui:ui:1.1.0-rc01")
-    implementation("androidx.compose.material:material:1.1.0-rc01")
-    implementation("com.google.accompanist:accompanist-insets:0.21.5-rc")
-    implementation("com.google.accompanist:accompanist-insets-ui:0.21.5-rc")
-    implementation("androidx.compose.material3:material3:1.0.0-alpha02")
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.material3:material3:$material3Version")
 }

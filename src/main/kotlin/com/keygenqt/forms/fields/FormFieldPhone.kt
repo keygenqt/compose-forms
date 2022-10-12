@@ -17,9 +17,10 @@
 package com.keygenqt.forms.fields
 
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -53,6 +54,7 @@ import com.keygenqt.forms.states.PhoneStateValidate
  * @since 0.0.7
  * @author Vitaliy Zarubin
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormFieldPhone(
     modifier: Modifier = Modifier,
