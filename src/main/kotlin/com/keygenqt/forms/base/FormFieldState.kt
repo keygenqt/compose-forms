@@ -39,7 +39,6 @@ import kotlinx.coroutines.runBlocking
  * @since 0.0.2
  * @author Vitaliy Zarubin
  */
-@OptIn(ExperimentalComposeUiApi::class)
 open class FormFieldState(
     text: String = "",
     private val checkValid: (String) -> List<(Context) -> String> = { emptyList() },
